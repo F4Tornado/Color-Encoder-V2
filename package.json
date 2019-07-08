@@ -1,0 +1,15 @@
+{
+  "name": "color-encoder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "F4Tornado",
+  "license": "ISC",
+  "dependencies": {
+    "play-sound": "^1.1.3",
+    "serialport": "^7.1.5"
+  }
+}
