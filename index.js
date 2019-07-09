@@ -63,3 +63,4 @@ function writeColor(r, g, b, w) {
   port.write(String.fromCharCode(Math.floor(b / 2)));
   port.write(String.fromCharCode(Math.floor(w / 2)));
 }
+

@@ -6,7 +6,7 @@ let keyframes = [{
   g: 0,
   t: 0
 }];
-let songIn, song, fft, inColor, howTo, z1, z2, testing, testInterval;
+let songIn, song, fft, inColor, howTo, z1, z2, testing, testInterval, decompile, data;
 
 function setup() {
   songIn = createFileInput(load).position(16, 16).style("color", "#ebebeb").style("z-index", 1000);
@@ -107,8 +107,11 @@ function load(file) {
       document.execCommand("copy")
       text.remove()
     })
+    decompile = createElement("textarea").position(420, 16).attribute("onchange", "loadData()");
+    decompile.elt.placeholder = "Load data"
     fft = song.getPeaks(width * 64);
   });
+
 }
 
 function mousePressed() {
@@ -189,8 +192,41 @@ function stopTest() {
   clearInterval(testInterval)
 }
 
+function loadData() {
+  data = decompile.value().split(",");
+  console.log(data)
+  let ret = [];
+  let totalTime = 0;
+  for (let i = 0; i < data.length; i += 5) {
+    let w = parseInt(data[i + 3]);
+
+    let r = parseInt(data[i + 0]) + w;
+    let g = parseInt(data[i + 1]) + w;
+    let b = parseInt(data[i + 2]) + w;
+    console.log(r, g, b)
+
+    ret.push({
+      r: r,
+      g: g,
+      b: b,
+      t: totalTime
+    })
+
+    totalTime += parseInt(data[i + 4]);
+  }
+  keyframes = ret;
+  decompile.remove()
+}
+
 function hexToRGB(hex) {
   let c = color(hex);
   console.log(c);
   return [c.levels[0], c.levels[1], c.levels[2]]
 }
+
+window.addEventListener("beforeunload", function (e) {
+  var confirmationMessage = `Sure you want to leave? Your progress may get lost`;
+
+  (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+  return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
+});
