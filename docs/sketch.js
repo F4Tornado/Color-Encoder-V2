@@ -97,7 +97,7 @@ function load(file) {
     test = createButton("Test").position(90, 16).mousePressed(test);
     stoptest = createButton("Stop Test").position(144, 16).mousePressed(stopTest)
     howTo = createButton("How To Use").position(230, 16).mousePressed(() => {
-      window.open("https://github.com/F4Tornado/color-encoder#how-to-use")
+      window.open("https://github.com/F4Tornado/Color-Encoder-V2")
     })
     copy = createButton("Copy code").position(330, 16).mousePressed(() => {
       generate()
