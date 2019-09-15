@@ -44,12 +44,19 @@ function draw() {
         }
         stroke(235)
       }
+
+      for (let i = 0; i < song.duration(); i += 60 / select("#bpm").value()) {
+        strokeWeight(1);
+        line(map(i * 1000, song.duration() * z1 * 1000, song.duration() * z2 * 1000, 0, width), height, map(i * 1000, song.duration() * z1 * 1000, song.duration() * z2 * 1000, 0, width), height * 3 / 4)
+      }
+
       for (let frame of keyframes) {
         strokeWeight(2)
         fill(frame.r, frame.g, frame.b);
         line(map(frame.t, song.duration() * z1 * 1000, song.duration() * z2 * 1000, 0, width), height, map(frame.t, song.duration() * z1 * 1000, song.duration() * z2 * 1000, 0, width), height * 3 / 4)
         rect(map(frame.t, song.duration() * z1 * 1000, song.duration() * z2 * 1000, 0, width), height * 3 / 4, width / 64, width / 64);
       }
+
       line(map(z1, 0, 1, 0, width), height * 3 / 4 * 7 / 8, map(z1, 0, 1, 0, width), height * 3 / 4 * 13 / 16)
       line(map(z2, 0, 1, 0, width), height * 3 / 4 * 7 / 8, map(z2, 0, 1, 0, width), height * 3 / 4 * 13 / 16)
       let clicky1;
@@ -95,10 +102,10 @@ function load(file) {
     removeElements();
     inColor = createInput("", "color").position(16, 16).id("color-picker");
     test = createButton("Test").position(90, 16).mousePressed(test);
-    stoptest = createButton("Stop Test").position(144, 16).mousePressed(stopTest)
+    stoptest = createButton("Stop Test").position(144, 16).mousePressed(stopTest);
     howTo = createButton("How To Use").position(230, 16).mousePressed(() => {
       window.open("https://github.com/F4Tornado/Color-Encoder-V2")
-    })
+    });
     copy = createButton("Copy code").position(330, 16).mousePressed(() => {
       generate()
       let text = createElement("textarea")
@@ -106,9 +113,11 @@ function load(file) {
       text.elt.select()
       document.execCommand("copy")
       text.remove()
-    })
-    decompile = createElement("textarea").position(420, 16).attribute("onchange", "loadData()");
-    decompile.elt.placeholder = "Load data"
+    });
+    bpm = createInput("", "number").position(420, 16).attribute("id", "bpm").value(120);
+    bpm.elt.placeholder = "Snap to BPM";
+    decompile = createElement("textarea").position(570, 16).attribute("onchange", "loadData()");
+    decompile.elt.placeholder = "Load data";
     fft = song.getPeaks(width * 64);
   });
 
@@ -117,11 +126,12 @@ function load(file) {
 function mousePressed() {
   if (mouseY > height * 3 / 4 && mouseButton == LEFT) {
     c = hexToRGB(inColor.value());
+    let t = floor((mouseX / width) * song.duration() * 1000 * (z2 - z1) + z1 * song.duration() * 1000)
     keyframes.push({
       r: c[0],
       g: c[1],
       b: c[2],
-      t: floor((mouseX / width) * song.duration() * 1000 * (z2 - z1) + z1 * song.duration() * 1000)
+      t: t - (t % (60 / select("#bpm").value() * 1000))
     })
     console.log(keyframes)
   } else if (mouseButton == RIGHT) {
