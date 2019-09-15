@@ -1,6 +1,6 @@
 int w = 6; //White pin
 int r = 7; //Red pin
-int g = 9; //Green pin
+int g = 5; //Green pin
 int b = 8; //Blue pin
 int brightness = 100;
 //r, g, b, w, time

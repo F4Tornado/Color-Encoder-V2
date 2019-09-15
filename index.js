@@ -30,7 +30,7 @@ parser.on('data', data => {
   msgs++;
   console.log('\x1b[34m', data);
   if (msgs == 7) {
-    player.play("./Music.mp3", {
+    player.play("./Music.wav", {
       timeout: 500
     }, function (err) {
       if (err) throw err;
@@ -63,4 +63,3 @@ function writeColor(r, g, b, w) {
   port.write(String.fromCharCode(Math.floor(b / 2)));
   port.write(String.fromCharCode(Math.floor(w / 2)));
 }
-

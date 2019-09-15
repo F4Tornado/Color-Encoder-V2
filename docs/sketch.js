@@ -131,7 +131,7 @@ function mousePressed() {
       r: c[0],
       g: c[1],
       b: c[2],
-      t: t - (t % (60 / select("#bpm").value() * 1000))
+      t: Math.round(t / (60 / select("#bpm").value() * 1000)) * (60 / select("#bpm").value() * 1000)
     })
     console.log(keyframes)
   } else if (mouseButton == RIGHT) {
